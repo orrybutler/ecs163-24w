@@ -19,7 +19,7 @@ let parMargin = {top: 10, right: 30, bottom: 30, left: 60},
     
 
 
-d3.csv("pokemon_alopez247.csv").then(rawData =>{
+d3.csv("/data/pokemon_alopez247.csv").then(rawData =>{
     rawData = rawData.map(d=>{
                           return {
                               "Total": Number(d.Total),
