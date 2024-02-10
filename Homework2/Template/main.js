@@ -13,7 +13,7 @@ let distrMargin = {top: 10, right: 30, bottom: 30, left: 60},
     distrHeight = 350 - distrMargin.top - distrMargin.bottom;
 
 let teamLeft = 0, teamTop = 400;
-let teamMargin = {top: 10, right: 30, bottom: 30, left: 60},
+let teamMargin = {top: 10, right: 30, bottom: 1000, left: 60},
     teamWidth = width - teamMargin.left - teamMargin.right,
     teamHeight = height-450 - teamMargin.top - teamMargin.bottom;
 
