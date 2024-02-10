@@ -243,11 +243,11 @@ d3.csv("pokemon_alopez247.csv").then(rawData =>{
     .style("stroke-width",1)
     .attr("x1", -545)
     .attr("y1", function(d) {
-        return parTop + parMargin.top + y3(d.HP)
+        return parTop + parMargin.top + y3(d.HP) + 10
     })
     .attr("x2", -545+adder)
     .attr("y2", function(d) {
-        return parTop + parMargin.top + y4(d.Attack)
+        return parTop + parMargin.top + y4(d.Attack) + 10
     })
     .attr("opacity", 0.3)
     .attr("stroke", function(d) {
@@ -270,11 +270,11 @@ d3.csv("pokemon_alopez247.csv").then(rawData =>{
     .style("stroke-width",1)
     .attr("x1", -545 + adder)
     .attr("y1", function(d) {
-        return parTop + parMargin.top + y4(d.Attack)
+        return parTop + parMargin.top + y4(d.Attack) + 10
     })
     .attr("x2", -545+2*adder)
     .attr("y2", function(d) {
-        return parTop + parMargin.top + y6(d.Defense)
+        return parTop + parMargin.top + y6(d.Defense) + 10
     })
     .attr("opacity", 0.3)
     .attr("stroke", function(d) {
@@ -317,11 +317,11 @@ d3.csv("pokemon_alopez247.csv").then(rawData =>{
     .style("stroke-width",1)
     .attr("x1", -545 + 2*adder)
     .attr("y1", function(d) {
-        return parTop + parMargin.top + y6(d.Defense)
+        return parTop + parMargin.top + y6(d.Defense) + 10
     })
     .attr("x2", -545+3*adder)
     .attr("y2", function(d) {
-        return parTop + parMargin.top + y7(d.Sp_Atk)
+        return parTop + parMargin.top + y7(d.Sp_Atk) + 10
     })
     .attr("opacity", 0.3)
     .attr("stroke", function(d) {
@@ -354,11 +354,11 @@ d3.csv("pokemon_alopez247.csv").then(rawData =>{
     .style("stroke-width",1)
     .attr("x1", -545 + 3*adder)
     .attr("y1", function(d) {
-        return parTop + parMargin.top + y7(d.Sp_Atk)
+        return parTop + parMargin.top + y7(d.Sp_Atk) + 10
     })
     .attr("x2", -545+4*adder)
     .attr("y2", function(d) {
-        return parTop + parMargin.top + y8(d.Sp_Def)
+        return parTop + parMargin.top + y8(d.Sp_Def) + 10
     })
     .attr("opacity", 0.3)
     .attr("stroke", function(d) {
@@ -391,11 +391,11 @@ d3.csv("pokemon_alopez247.csv").then(rawData =>{
     .style("stroke-width",1)
     .attr("x1", -545 + 4*adder)
     .attr("y1", function(d) {
-        return parTop + parMargin.top + y8(d.Sp_Def)
+        return parTop + parMargin.top + y8(d.Sp_Def) + 10
     })
     .attr("x2", -545+5*adder)
     .attr("y2", function(d) {
-        return parTop + parMargin.top + y9(d.Speed)
+        return parTop + parMargin.top + y9(d.Speed) + 10
     })
     .attr("opacity", 0.3)
     .attr("stroke", function(d) {
@@ -429,62 +429,71 @@ d3.csv("pokemon_alopez247.csv").then(rawData =>{
     .style("stroke-width",1)
     .attr("x1", -545 + 5*adder)
     .attr("y1", function(d) {
-        return parTop + parMargin.top + y9(d.Speed)
+        console.log(y9(d.Speed), y10(d.Total))
+        return parTop + parMargin.top + y9(d.Speed) + 10
     })
     .attr("x2", -545+6*adder)
     .attr("y2", function(d) {
-        return parTop + parMargin.top +y10(d.Total)
+        return parTop + parMargin.top +y10(d.Total) + 10
     })
     .attr("opacity", 0.3)
     .attr("stroke", function(d) {
         return generationsColorScale(d.Generation)
     });
+
+    // g3.append('line')
+    // .style("stroke", "lightgreen")
+    // .style("stroke-width", 2)
+    // .attr("x1", -545 + 5*adder)
+    // .attr("y1", parTop + parMargin.top + 461.8125 + 10)
+    // .attr("x2", -545 + 6*adder)
+    // .attr("y2", parTop + parMargin.top + 136.83333333333333 + 10);
     
-    g2.append("text")
+    g3.append("text")
     .attr("x", -545)
-    .attr("y", parheight - parheight/2 - 10)
+    .attr("y", parTop)
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
     .text("Total HP")
     g2.append("text")
     .attr("x", -545 + adder)
-    .attr("y", parheight - parheight/2 - 10)
+    .attr("y", parTop)
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
     .text("Attack Rating")
     g2.append("text")
     .attr("x", -545 + 2*adder)
-    .attr("y", parheight - parheight/2 - 10)
+    .attr("y", parTop)
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
     .text("Defense Rating")
     g2.append("text")
     .attr("x", -545 + 3*adder)
-    .attr("y", parheight - parheight/2 - 10)
+    .attr("y", parTop)
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
     .text("Speed Attack")
     g2.append("text")
     .attr("x", -545 + 4*adder)
-    .attr("y", parheight - parheight/2 - 10)
+    .attr("y", parTop)
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
     .text("Speed Defense")
     g2.append("text")
     .attr("x", -545 + 5*adder)
-    .attr("y", parheight - parheight/2 - 10)
+    .attr("y", parTop)
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
     .text("Speed")
     g2.append("text")
     .attr("x", -545 + 6*adder)
-    .attr("y", parheight - parheight/2 - 10)
+    .attr("y", parTop)
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
     .text("Total Rating")
 
-    svg.selectAll("legend_paralel").data(["1", "2", "3", "4", "5", "6", "7", "8", "9"]).enter().append("circle").attr("cx", parWidth - 70).attr("cy", function(d, i){return parheight - parheight/2.75 + 25*i}).attr("r", 4).attr("fill", d => generationsColorScale(d))
-    svg.selectAll("lengend_par_text").data(['Generation 1', 'Generation 2', 'Generation 3', 'Generation 4', 'Generation 5', 'Generation 6', 'Generation 7', "Generation 8", "Generation 9"]).enter().append("text").attr("x", parWidth - 60).attr("y", function(d,i) {return parheight - parheight/2.75 +25*i +5}).attr("font-size", '15px')
+    svg.selectAll("legend_paralel").data(["1", "2", "3", "4", "5", "6", "7", "8", "9"]).enter().append("circle").attr("cx", parWidth - 70).attr("cy", function(d, i){return parheight + 25*i}).attr("r", 4).attr("fill", d => generationsColorScale(d))
+    svg.selectAll("lengend_par_text").data(['Generation 1', 'Generation 2', 'Generation 3', 'Generation 4', 'Generation 5', 'Generation 6', 'Generation 7', "Generation 8", "Generation 9"]).enter().append("text").attr("x", parWidth - 60).attr("y", function(d,i) {return parheight +25*i +5}).attr("font-size", '15px')
     .attr("text_anchor", "middle").text(d => d)
     
     
