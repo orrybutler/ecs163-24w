@@ -429,7 +429,6 @@ d3.csv("/data/pokemon_alopez247.csv").then(rawData =>{
     .style("stroke-width",1)
     .attr("x1", -545 + 5*adder)
     .attr("y1", function(d) {
-        console.log(y9(d.Speed), y10(d.Total))
         return parTop + parMargin.top + y9(d.Speed) + 10
     })
     .attr("x2", -545+6*adder)
