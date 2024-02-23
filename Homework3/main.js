@@ -36,7 +36,7 @@ const barColorScale = d3.scaleOrdinal().domain([ "Fire", "Water", "Grass", "Norm
     const generationsColorScale = d3.scaleOrdinal().domain(["1", "2", "3", "4", "5", "6", "7", "8", "9"])
     .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#17becf", "#e377c2", "#7f7f7f"]);
 
-d3.csv("/data/pokemon_alopez247.csv").then(raw_data =>{
+d3.csv("pokemon_alopez247.csv").then(raw_data =>{
     raw_data = raw_data.map(d=>{
                           return {
                               "Name": d.Name,
