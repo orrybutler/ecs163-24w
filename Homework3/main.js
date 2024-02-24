@@ -72,16 +72,30 @@ d3.csv("pokemon_alopez247.csv").then(raw_data =>{
     })
 function updateVisualization(data) {
     const scatterColorScale = d3.scaleOrdinal().domain(['False', 'True']).range(['gray', 'red'])
+    const normalBarColorScalle = d3.scaleOrdinal().domain([ "Fire", "Water", "Grass", "Normal", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"])
+    .range(["#EE8130", "#6390F0", "#7AC74C", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray"])
 
     svg.append("g").attr("class", "brush").call(d3.brush().on("start brush end", function(d) {
         extent = d3.event.selection
         if (extent) {
             let circles = svg.selectAll("circle")
             let fitted_circles = circles.filter(function(d) {
-                 return d3.select(this).attr("cx") >= extent[0][0] - 60 && d3.select(this).attr("cx") <= extent[1][0] - 60 && d3.select(this).attr("cy") >= extent[0][1] - scatterMargin.top + scatterMargin.bottom && d3.select(this).attr("cy") <= extent[1][0] - scatterMargin.top + scatterMargin.bottom
+                 return d3.select(this).attr("cx") >= extent[0][0] - 60 && d3.select(this).attr("cx") <= extent[1][0] - 60 && d3.select(this).attr("cy") >= extent[0][1] - scatterMargin.top && d3.select(this).attr("cy") <= extent[1][0] + scatterMargin.top
             })
             fitted_circles.transition().duration(1000).attr("fill", function(d) {
                 return barColorScale(d.Type)
+            })
+            fitted_circles.on("mouseover", function(d) {
+                svg.select(".hover_text").remove()
+                svg.append("text")
+                .classed("hover_text", true)
+                .attr("font-size", "12px")
+                .attr("x", d3.event.pageX)
+                .attr("y", (d3.event.pageY - 30))
+                .text(d.Name + ", " + d.Type)
+            })
+            fitted_circles.on("mouseout", function(d) {
+                svg.select(".hover_text", true).remove()
             })
         }
         if(!extent) {
@@ -89,16 +103,26 @@ function updateVisualization(data) {
             circles.transition().duration(1000).attr("fill", function(d) {
                 return scatterColorScale(d.Legendary)
             })
-            svg.selectAll("legend_paralel").data(["1", "2", "3", "4", "5", "6"]).enter().append("circle").attr("cx", parWidth).attr("cy", function(d, i){return parTop + parheight/3 + 25*i}).attr("r", 4).attr("fill", d => generationsColorScale(d))
+            svg.selectAll("legend_paralel").data(["1", "2", "3", "4", "5", "6"]).enter().append("circle").attr("cx", parWidth - 15).attr("cy", function(d, i){return parTop + parheight/3 + 25*i}).attr("r", 4).attr("fill", d => generationsColorScale(d))
             svg.selectAll("legend_colors").data(['False', 'True']).enter().append("circle").attr("cx", scatterWidth + 40).attr("cy", function(d, i){return 60 + 25*i}).attr("r", 4).attr("fill", d => scatterColorScale(d))
             svg.selectAll("bar_legend_colors").data(['Fire', 'Water', 'Grass']).enter().append("circle").attr("cx", TypeLeft + TypeWidth*0.8 + 5).attr("cy", function(d, i){return 70 + 25*i}).attr("r", 4).attr("fill", d => barColorScale(d))
+            circles.on("mouseover", function(d) {
+                svg.append("text")
+                .classed("hover_text", true)
+                .attr("font-size", "12px")
+                .attr("x", d3.event.pageX)
+                .attr("y", d3.event.pageY - 30)
+                .text(d.Name + "(" + d.Total + "," + d.Catch_Rate + ")")
+            })
+            circles.on("mouseout", function(d) {
+                svg.select(".hover_text").remove()
+            })
         }
         
     }))
 
-
     
-
+    svg.append("text").attr("x", scatterWidth + 50).attr("y", 60 - 15).attr("font-size", "15px").attr("text-anchor", "end").text("On Brush Hover Points For Visual Encodings")
     svg.selectAll("legend_colors").data(['False', 'True']).enter().append("circle").attr("cx", scatterWidth + 40).attr("cy", function(d, i){return 60 + 25*i}).attr("r", 4).attr("fill", d => scatterColorScale(d))
     svg.selectAll("lengend_text").data(['Not Legendary', 'Legendary']).enter().append("text").attr("x", scatterWidth + 50).attr("y", function(d,i) {return 65+25*i}).attr("font-size", '15px')
     .attr("text_anchor", "middle").text(d => d)
@@ -170,18 +194,16 @@ function updateVisualization(data) {
          .attr("fill", function(d) {
             return scatterColorScale(d.Legendary)
          }).on("mouseover", function(d) {
+            svg.select(".hover_text").remove()
             svg.append("text")
-            .classed("hover-text", true)
+            .classed("hover_text", true)
             .attr("font-size", "12px")
-            .attr("x", event.pageX)
-            .attr("y", event.pageY)
-            .attr("text-anchor", "middle")
-            .text(d.Type)
-         })
-         .on("mouseout", mouseOut)
-        function mouseOut() {
-            svg.select(".hover-text").remove()
-        }
+            .attr("x", d3.event.pageX)
+            .attr("y", (d3.event.pageY - 30))
+            .text(d.Name + "(" + d.Total + "," + d.Catch_Rate + ")")
+         }).on("mouseout", function(d) {
+            svg.select(".hover_text").remove()
+        })
 
     q = data.reduce((s, { Type }) => (s[Type] = (s[Type] || 0) + 1, s), {});
     r = Object.keys(q).map((key) => ({ Type: key, count: q[key] }));
@@ -258,24 +280,28 @@ function updateVisualization(data) {
     .attr("x", (d) => x2(d.Type))
     .attr("width", x2.bandwidth)
     .attr("height", d => TypeHeight - y2(d.count))
-    .attr("fill", "gray")
+    .attr("fill", function(d) {
+        return normalBarColorScalle(d.Type)
+    })
     .on("mouseover", function(d) {
-        d3.select(this).attr("fill", function(d){
+        d3.select(this).transition().duration(500).attr("fill", function(d){
             return barColorScale(d.Type)
         })
+        svg.select(".hover_text").remove()
         svg.append("text")
         .classed("hover_text", true)
         .attr("font-size", "12px")
-        .attr("x", event.pageX)
-        .attr("y", event.pageY)
-        .text(d.count)
-    .on("mousemove", function(d) {
+        .attr("x", d3.event.pageX)
+        .attr("y", d3.event.pageY - 30)
+        .text(d.count + " " + d.Type)
+    }).on("mousemove", function(d) {
         svg.select(".hover_text")
-        .attr("x", event.pageX)
-        .attr("y", event.pageY)
-    })
+        .attr("x", d3.event.pageX)
+        .attr("y", d3.event.pageY - 30)
     }).on("mouseout", function(d) {
-        d3.select(this).attr("fill", "gray")
+        d3.select(this).transition().duration(500).attr("fill", function(d) {
+            return normalBarColorScalle(d.Type)
+        })
         svg.select(".hover_text").remove()
     })
 
@@ -582,8 +608,8 @@ function updateVisualization(data) {
     .attr("text-anchor", "middle")
     .text("Pokemon Ability Ratings")
 
-    svg.selectAll("legend_paralel").data(["1", "2", "3", "4", "5", "6"]).enter().append("circle").attr("cx", parWidth).attr("cy", function(d, i){return parTop + parheight/3 + 25*i}).attr("r", 4).attr("fill", d => generationsColorScale(d))
-    svg.selectAll("lengend_par_text").data(['Generation 1', 'Generation 2', 'Generation 3', 'Generation 4', 'Generation 5', 'Generation 6']).enter().append("text").attr("x", parWidth + 5).attr("y", function(d,i) {return parTop + parheight/3 +25*i +5}).attr("font-size", '15px')
+    svg.selectAll("legend_paralel").data(["1", "2", "3", "4", "5", "6"]).enter().append("circle").attr("cx", parWidth - 15).attr("cy", function(d, i){return parTop + parheight/3 + 25*i}).attr("r", 4).attr("fill", d => generationsColorScale(d))
+    svg.selectAll("lengend_par_text").data(['Generation 1', 'Generation 2', 'Generation 3', 'Generation 4', 'Generation 5', 'Generation 6']).enter().append("text").attr("x", parWidth -10).attr("y", function(d,i) {return parTop + parheight/3 +25*i +5}).attr("font-size", '15px')
     .attr("text_anchor", "middle").text(d => d)
     
     
